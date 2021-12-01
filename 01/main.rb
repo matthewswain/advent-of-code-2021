@@ -1,10 +1,21 @@
-previous = nil
-increasing = 0
+def count_increasing(window_size, values)
+  previous = []
+  increasing = 0
 
-File.readlines('input').each do |line|
-  value = line.strip.to_i
-  increasing += 1 if !previous.nil? && value > previous
-  previous = value
+  values.each do |value|
+    if previous.length < window_size
+      previous.append value
+      next
+    end
+
+    current = previous[1..] + [value]
+    increasing += 1 if previous.sum < current.sum
+    previous = current
+  end
+
+  increasing
 end
 
-puts increasing
+values = File.readlines('input').map! { |line| line.strip.to_i }
+puts "Part 1: #{count_increasing(1, values)}"
+puts "Part 2: #{count_increasing(3, values)}"

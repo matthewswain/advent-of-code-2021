@@ -1,16 +1,8 @@
 def count_increasing(window_size, values)
-  previous = []
   increasing = 0
 
-  values.each do |value|
-    if previous.length < window_size
-      previous.append value
-      next
-    end
-
-    current = previous[1..] + [value]
-    increasing += 1 if previous.sum < current.sum
-    previous = current
+  (window_size..values.length).each do |i|
+    increasing += 1 if values[i - window_size...i].sum < values[i - window_size + 1..i].sum
   end
 
   increasing

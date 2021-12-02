@@ -1,13 +1,8 @@
-def count_increasing(window_size, values)
-  increasing = 0
-
-  (window_size..values.length).each do |i|
-    increasing += 1 if values[i - window_size...i].sum < values[i - window_size + 1..i].sum
-  end
-
-  increasing
+def count_increasing(window, values)
+  totals = values.each_cons(window).map(&:sum)
+  totals.each_cons(2).count { _1 < _2 }
 end
 
-values = File.readlines('input').map! { |line| line.strip.to_i }
+values = File.readlines('input').map!(&:to_i)
 puts "Part 1: #{count_increasing(1, values)}"
 puts "Part 2: #{count_increasing(3, values)}"
